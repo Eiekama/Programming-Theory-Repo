@@ -21,7 +21,7 @@ MonoBehaviour:
   m_ShowMode: 4
   m_Title: Profiler
   m_RootView: {fileID: 12}
-  m_MinSize: {x: 875, y: 558}
+  m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
   m_Maximized: 1
 --- !u!114 &2
@@ -171,7 +171,7 @@ MonoBehaviour:
   m_MinSize: {x: 535, y: 271}
   m_MaxSize: {x: 18005, y: 10021}
   vertical: 0
-  controlID: 149
+  controlID: 25
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -223,7 +223,7 @@ MonoBehaviour:
   m_MinSize: {x: 1199, y: 508}
   m_MaxSize: {x: 22006, y: 14042}
   vertical: 0
-  controlID: 105
+  controlID: 23
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -300,7 +300,7 @@ MonoBehaviour:
     y: 0
     width: 2560
     height: 1318
-  m_MinSize: {x: 875, y: 558}
+  m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
   m_UseTopView: 1
   m_TopViewHeight: 30
@@ -376,7 +376,7 @@ MonoBehaviour:
   m_MinSize: {x: 923, y: 508}
   m_MaxSize: {x: 18005, y: 14042}
   vertical: 1
-  controlID: 106
+  controlID: 24
 --- !u!114 &16
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -401,7 +401,7 @@ MonoBehaviour:
   m_MinSize: {x: 923, y: 237}
   m_MaxSize: {x: 8003, y: 4021}
   vertical: 0
-  controlID: 107
+  controlID: 168
 --- !u!114 &17
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -421,8 +421,8 @@ MonoBehaviour:
     y: 0
     width: 1440
     height: 672
-  m_MinSize: {x: 720, y: 216}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 721, y: 237}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 18}
   m_Panes:
   - {fileID: 27}
@@ -1519,22 +1519,23 @@ MonoBehaviour:
     m_SkipHidden: 1
     m_SearchArea: 1
     m_Folders:
-    - Assets/Optimization/Scripts
+    - Assets
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 76
   m_LastFolders:
-  - Assets/Optimization/Scripts
+  - Assets
   m_LastFoldersGridSize: 76
-  m_LastProjectPath: /Users/chenjingxuan/Desktop/Github/Jr-Programmer-Project
+  m_LastProjectPath: /Users/chenjingxuan/Desktop/Github/Programming-Theory-Repo/Programming
+    Theory Project
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 604f0000
-    m_LastClickedID: 20320
-    m_ExpandedIDs: 00000000984a0000a84a000000ca9a3b
+    m_SelectedIDs: f64b0000
+    m_LastClickedID: 19446
+    m_ExpandedIDs: 00000000f64b000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1562,7 +1563,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: d03f0000
     m_LastClickedID: 16336
-    m_ExpandedIDs: 00000000984a0000
+    m_ExpandedIDs: 
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1589,7 +1590,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 1
+    m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: c6230000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -1683,9 +1684,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 96100000
+      m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 56d2ffff9af7ffff6cfbffff
+      m_ExpandedIDs: a0faffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1745,7 +1746,7 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 49.984596, y: -2.3981705, z: -77.17484}
+    m_Target: {x: 0, y: 0, z: 0}
     speed: 2
     m_Value: {x: 49.984596, y: -2.3981705, z: -77.17484}
   m_RenderMode: 0
@@ -1794,11 +1795,11 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.116097406, y: 0.8055894, z: -0.16817936, w: -0.5561138}
+    m_Target: {x: -0.08717229, y: 0.89959055, z: -0.21045254, w: -0.3726226}
     speed: 2
     m_Value: {x: -0.11609742, y: 0.8055895, z: -0.16817938, w: -0.55611384}
   m_Size:
-    m_Target: 256.84448
+    m_Target: 10
     speed: 2
     m_Value: 256.84448
   m_Ortho:
