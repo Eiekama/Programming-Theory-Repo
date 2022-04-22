@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class Crop : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public enum Hydration
     {
-        
+        Hydrated,
+        NeedWater,
+        Dehydrated
     }
+    public Hydration hydration;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [SerializeField] float growTime;
+    float growthSpeed = 1.0f;
+    bool isGrowing;
 }

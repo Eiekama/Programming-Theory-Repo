@@ -1,18 +1,54 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class UIHandler : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] GameObject mainUI;
+    [SerializeField] GameObject plantUI;
+
+    public void GoToPlantUI()
     {
-        
+        mainUI.SetActive(false);
+        plantUI.SetActive(true);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void IsWatering()
     {
-        
+        PlayerActions.Instance.currentAction = PlayerActions.Action.Water;
+    }
+
+    public void IsFertilising()
+    {
+        PlayerActions.Instance.currentAction = PlayerActions.Action.Fertilise;
+    }
+
+    public void IsRemoving()
+    {
+        PlayerActions.Instance.currentAction = PlayerActions.Action.Remove;
+    }
+
+    public void QuitGame()
+    {
+#if UNITY_EDITOR
+        EditorApplication.ExitPlaymode();
+#else
+        Application.Quit();
+#endif
+    }
+
+    public void IsPlanting(GameObject crop)
+    {
+        PlayerActions.Instance.currentAction = PlayerActions.Action.Plant;
+        GameObject cropToPlant = crop; //just the idea rn, change later
+    }
+
+    public void GoToMainUI()
+    {
+        plantUI.SetActive(false);
+        mainUI.SetActive(true);
     }
 }
