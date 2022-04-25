@@ -15,4 +15,6 @@ public class Crop : MonoBehaviour
     [SerializeField] float growTime;
     float growthSpeed = 1.0f;
     bool isGrowing;
+
+
 }

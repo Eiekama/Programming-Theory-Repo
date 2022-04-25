@@ -16,7 +16,7 @@ public class PlayerActions : MonoBehaviour
     }
     public Action currentAction;
 
-    public Field selectedField;
+    public Field currentField;
 
     GameObject cropPrefab;
     public GameObject CropPrefab
@@ -24,7 +24,7 @@ public class PlayerActions : MonoBehaviour
         get { return cropPrefab; }
         set
         {
-            if (value.GetComponent<Crop>() == null)
+            if (value != null && value.GetComponent<Crop>() == null)
             {
                 Debug.LogError("Prefab provided does not have Crop class");
             } else
@@ -51,9 +51,7 @@ public class PlayerActions : MonoBehaviour
 
     void Start()
     {
-        currentAction = Action.None;
-        selectedField = null;
-        cropPrefab = null;
+        ClearAction();
     }
 
     void Update()
@@ -113,23 +111,34 @@ public class PlayerActions : MonoBehaviour
     }
 
 
-    void Plant()
+    public void Plant()
     {
-
+        Debug.Log("Planted " + cropPrefab);
+        Instantiate(cropPrefab, currentField.transform);
+        currentField.CurrentCrop = currentField.GetComponentInChildren<Crop>().gameObject;
     }
 
-    void Water()
+    public void Water()
     {
-
+        Debug.Log("Watered field");
     }
 
-    void Fertilise()
+    public void Fertilise()
     {
-
+        Debug.Log("Fertilised field");
     }
 
-    void Remove()
+    public void Remove()
     {
+        Debug.Log("Removed crop");
+        Destroy(currentField.CurrentCrop);
+        currentField.CurrentCrop = null;
+    }
 
+    void ClearAction()
+    {
+        currentAction = Action.None;
+        currentField = null;
+        cropPrefab = null;
     }
 }
