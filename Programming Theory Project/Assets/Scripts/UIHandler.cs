@@ -43,7 +43,7 @@ public class UIHandler : MonoBehaviour
     public void IsPlanting(GameObject crop)
     {
         PlayerActions.Instance.currentAction = PlayerActions.Action.Plant;
-        GameObject cropToPlant = crop; //just the idea rn, change later
+        PlayerActions.Instance.CropPrefab = crop;
     }
 
     public void GoToMainUI()
