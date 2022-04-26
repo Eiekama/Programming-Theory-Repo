@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Field : MonoBehaviour
 {
-    bool isFertilised;
     GameObject currentCrop;
     public GameObject CurrentCrop
     {
@@ -22,29 +21,42 @@ public class Field : MonoBehaviour
         }
     }
 
+    public GameObject[] icons; // make sure icons are placed in order
+    bool isFertilised;
+
     void OnMouseDown()
     {
         PlayerActions.Instance.currentField = this;
-        switch (PlayerActions.Instance.currentAction)
+
+        if (currentCrop != null && currentCrop.GetComponent<Crop>().IsReady)
         {
-            case PlayerActions.Action.Plant:
-                if (currentCrop == null)
-                {
-                    PlayerActions.Instance.Plant();
-                }
-                break;
-            case PlayerActions.Action.Water:
-                PlayerActions.Instance.Water();
-                break;
-            case PlayerActions.Action.Fertilise:
-                PlayerActions.Instance.Fertilise();
-                break;
-            case PlayerActions.Action.Remove:
-                if (currentCrop != null)
-                {
-                    PlayerActions.Instance.Remove();
-                }
-                break;
+            currentCrop.GetComponent<Crop>().Harvest();
+        }
+
+        if (PlayerActions.Instance.currentAction != PlayerActions.Action.None)
+        {
+            switch (PlayerActions.Instance.currentAction)
+            {
+                case PlayerActions.Action.Plant:
+                    if (currentCrop == null)
+                    {
+                        PlayerActions.Instance.Plant();
+                    }
+                    break;
+                case PlayerActions.Action.Water:
+                    PlayerActions.Instance.Water();
+                    break;
+                case PlayerActions.Action.Fertilise:
+                    PlayerActions.Instance.Fertilise();
+                    break;
+                case PlayerActions.Action.Remove:
+                    if (currentCrop != null)
+                    {
+                        PlayerActions.Instance.Remove();
+                    }
+                    break;
+            }
+            PlayerActions.Instance.ClearAction();
         }
     }
 }

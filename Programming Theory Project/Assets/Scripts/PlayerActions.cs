@@ -133,9 +133,16 @@ public class PlayerActions : MonoBehaviour
         Debug.Log("Removed crop");
         Destroy(currentField.CurrentCrop);
         currentField.CurrentCrop = null;
+        foreach (var icon in currentField.icons)
+        {
+            if (icon.activeInHierarchy)
+            {
+                icon.SetActive(false);
+            }
+        }
     }
 
-    void ClearAction()
+    public void ClearAction()
     {
         currentAction = Action.None;
         currentField = null;

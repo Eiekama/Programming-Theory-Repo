@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class MultiHarvest : Crop
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] GameObject grownForm;
+
+    protected override void Start()
     {
-        
+        grownForm.SetActive(false);
+        base.Start();
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Harvest()
     {
-        
+        base.Harvest();
+        harvestForm.SetActive(false);
+        grownForm.SetActive(true);
+        StartCoroutine(Growing());
     }
 }

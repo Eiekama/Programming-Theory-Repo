@@ -4,15 +4,10 @@ using UnityEngine;
 
 public class SingleHarvest : Crop
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void Harvest()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        base.Harvest();
+        currentField.CurrentCrop = null;
+        Destroy(gameObject);
     }
 }
