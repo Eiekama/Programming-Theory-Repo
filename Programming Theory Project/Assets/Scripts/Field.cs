@@ -22,7 +22,15 @@ public class Field : MonoBehaviour
     }
 
     public GameObject[] icons; // make sure icons are placed in order
-    bool isFertilised;
+    public bool isFertilised;
+
+    public float fertiliserTimer;
+    public float fertiliserTimeLeft;
+
+    void Start()
+    {
+        fertiliserTimeLeft = fertiliserTimer;
+    }
 
     void OnMouseDown()
     {
@@ -43,12 +51,18 @@ public class Field : MonoBehaviour
                         PlayerActions.Instance.Plant();
                     }
                     break;
+
                 case PlayerActions.Action.Water:
                     PlayerActions.Instance.Water();
                     break;
+
                 case PlayerActions.Action.Fertilise:
-                    PlayerActions.Instance.Fertilise();
+                    if (!isFertilised)
+                    {
+                        PlayerActions.Instance.Fertilise();
+                    }
                     break;
+
                 case PlayerActions.Action.Remove:
                     if (currentCrop != null)
                     {

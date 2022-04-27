@@ -126,6 +126,7 @@ public class PlayerActions : MonoBehaviour
     public void Fertilise()
     {
         Debug.Log("Fertilised field");
+        currentField.isFertilised = true;
     }
 
     public void Remove()

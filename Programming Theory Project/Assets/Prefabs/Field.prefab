@@ -446,6 +446,9 @@ MonoBehaviour:
   - {fileID: 3094904982476533677}
   - {fileID: 8611494536890652920}
   - {fileID: 5007869759927605761}
+  isFertilised: 0
+  fertiliserTimer: 10
+  fertiliserTimeLeft: 0
 --- !u!70 &4574894549577106860
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

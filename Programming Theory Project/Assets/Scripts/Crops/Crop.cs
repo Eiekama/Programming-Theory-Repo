@@ -18,9 +18,10 @@ public class Crop : MonoBehaviour
 
     [SerializeField] float growTime;
     [SerializeField] float waterLossRate;
-    float growthSpeed = 1.0f;
-    bool isGrowing;
+    [SerializeField] float growthSpeed = 1.0f;
+
     public bool IsReady { get; private set; }
+    bool isGrowing;
 
     void Awake()
     {
@@ -31,6 +32,7 @@ public class Crop : MonoBehaviour
     {
         seedForm.SetActive(true);
         harvestForm.SetActive(false);
+        StartCoroutine(WhenFertilised());
         StartCoroutine(Growing());
     }
 
@@ -60,5 +62,34 @@ public class Crop : MonoBehaviour
     {
         Debug.Log("Crop was harvested");
         currentField.icons[0].SetActive(false);
+    }
+
+    IEnumerator WhenFertilised()
+    {
+        var originalGrowthSpeed = growthSpeed;
+        while (true)
+        {
+            if (currentField.isFertilised && isGrowing)
+            {
+                if (currentField.fertiliserTimeLeft > 0)
+                {
+                    if (originalGrowthSpeed == growthSpeed)
+                    {
+                        growthSpeed *= 2;
+                    }
+                    currentField.fertiliserTimeLeft -= Time.deltaTime;
+                    yield return null;
+                } else
+                {
+                    growthSpeed = originalGrowthSpeed;
+                    currentField.fertiliserTimeLeft = currentField.fertiliserTimer;
+                    currentField.isFertilised = false;
+                    yield return null;
+                }
+            } else
+            {
+                yield return null;
+            }
+        }
     }
 }
