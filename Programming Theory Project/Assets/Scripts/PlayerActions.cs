@@ -121,6 +121,7 @@ public class PlayerActions : MonoBehaviour
     public void Water()
     {
         Debug.Log("Watered field");
+        currentField.CurrentCrop.GetComponent<Crop>().WaterLevel += 8;
     }
 
     public void Fertilise()

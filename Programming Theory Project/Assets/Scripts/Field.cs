@@ -53,7 +53,10 @@ public class Field : MonoBehaviour
                     break;
 
                 case PlayerActions.Action.Water:
-                    PlayerActions.Instance.Water();
+                    if (currentCrop != null)
+                    {
+                        PlayerActions.Instance.Water();
+                    }
                     break;
 
                 case PlayerActions.Action.Fertilise:

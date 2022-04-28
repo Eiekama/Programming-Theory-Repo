@@ -130,9 +130,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   seedForm: {fileID: 509178556554612390}
   harvestForm: {fileID: 2134891733887231586}
-  hydration: 0
   growTime: 10
-  waterLossRate: 0
+  growthSpeed: 1
+  waterLossRate: 1
 --- !u!61 &4752681403095267502
 BoxCollider2D:
   m_ObjectHideFlags: 0
