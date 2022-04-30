@@ -35,8 +35,8 @@ public class PlayerActions : MonoBehaviour
     }
 
     [SerializeField] Camera mainCamera;
-    [SerializeField] Transform cursor;
-    [SerializeField] SpriteRenderer[] icons; // make sure icons are placed in order
+    [SerializeField] GameObject cursor;
+    public SpriteRenderer cursorRenderer { get; private set; }
 
 
     void Awake()
@@ -51,6 +51,7 @@ public class PlayerActions : MonoBehaviour
 
     void Start()
     {
+        cursorRenderer = cursor.GetComponent<SpriteRenderer>();
         ClearAction();
     }
 
@@ -59,22 +60,6 @@ public class PlayerActions : MonoBehaviour
         if (currentAction != Action.None)
         {
             TrackCursor();
-            
-            switch (currentAction)
-            {
-                case Action.Water:
-                    SetIcon(0);
-                    break;
-                case Action.Fertilise:
-                    SetIcon(1);
-                    break;
-                case Action.Remove:
-                    SetIcon(2);
-                    break;
-            }
-        } else
-        {
-            SetIcon();
         }
     }
 
@@ -82,32 +67,7 @@ public class PlayerActions : MonoBehaviour
     void TrackCursor()
     {
         Vector2 pos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        cursor.position = pos;
-    }
-
-    void SetIcon(int index)
-    {
-        for (int i = 0; i < icons.Length; i++)
-        {
-            if (i == index && !icons[i].enabled)
-            {
-                icons[i].enabled = true;
-            } else if (i != index && icons[i].enabled)
-            {
-                icons[i].enabled = false;
-            }
-        }
-    }
-
-    void SetIcon()
-    { // disables all icons
-        for (int i = 0; i < icons.Length; i++)
-        {
-            if(icons[i].enabled)
-            {
-                icons[i].enabled = false;
-            }
-        }
+        cursor.transform.position = pos;
     }
 
 

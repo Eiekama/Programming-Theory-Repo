@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Crop : MonoBehaviour
 {
-    [SerializeField] protected GameObject seedForm;
-    [SerializeField] protected GameObject harvestForm;
+    [SerializeField] protected Sprite[] growthStages;
+    protected SpriteRenderer spriteRenderer;
     protected Field currentField;
 
     [SerializeField] float growTime;
@@ -41,8 +41,8 @@ public class Crop : MonoBehaviour
 
     protected virtual void Start()
     {
-        seedForm.SetActive(true);
-        harvestForm.SetActive(false);
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite = growthStages[0];
         StartCoroutine(ManageFertiliser());
         StartCoroutine(ManageWater());
         StartCoroutine(Growing());
@@ -66,8 +66,7 @@ public class Crop : MonoBehaviour
             }
         }
 
-        seedForm.SetActive(false);
-        harvestForm.SetActive(true);
+        spriteRenderer.sprite = growthStages[growthStages.Length - 1];
         isGrowing = false;
         IsReady = true;
         currentField.icons[0].SetActive(true);
