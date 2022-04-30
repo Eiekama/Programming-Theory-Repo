@@ -132,6 +132,7 @@ MonoBehaviour:
   harvestForm: {fileID: 2134891733887231586}
   growTime: 10
   growthSpeed: 1
+  waterLevel: 10
   waterLossRate: 1
 --- !u!61 &4752681403095267502
 BoxCollider2D:

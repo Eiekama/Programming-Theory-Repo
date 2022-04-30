@@ -85,25 +85,29 @@ public class Crop : MonoBehaviour
         }
     }
 
+
+
     IEnumerator ManageFertiliser()
     {
-        var originalGrowthSpeed = growthSpeed;
+        bool changedSpeed = false;
         while (true)
         {
             if (currentField.isFertilised && isGrowing)
             {
                 if (currentField.fertiliserTimeLeft > 0)
                 {
-                    if (originalGrowthSpeed == growthSpeed)
+                    if (!changedSpeed)
                     {
                         growthSpeed *= 2;
+                        changedSpeed = true;
                     }
                     currentField.fertiliserTimeLeft -= Time.deltaTime;
                     yield return null;
                 } else
                 {
-                    growthSpeed = originalGrowthSpeed;
+                    growthSpeed /= 2;
                     currentField.fertiliserTimeLeft = currentField.fertiliserTimer;
+                    changedSpeed = false;
                     currentField.isFertilised = false;
                     yield return null;
                 }
@@ -116,7 +120,7 @@ public class Crop : MonoBehaviour
 
     IEnumerator ManageWater()
     {
-        var originalGrowthSpeed = growthSpeed;
+        bool changedSpeed = false;
         while (true)
         {
             if (waterLevel > 0)
@@ -125,14 +129,16 @@ public class Crop : MonoBehaviour
                 {
                     isGrowing = true;
                 }
-                if (waterLevel >= 4 && growthSpeed != originalGrowthSpeed)
+                if (waterLevel >= 4 && changedSpeed)
                 {
-                    growthSpeed = originalGrowthSpeed;
+                    growthSpeed *= 2;
+                    changedSpeed = false;
                     currentField.icons[1].SetActive(false);
                     currentField.icons[2].SetActive(false);
-                } else if (waterLevel < 4 && originalGrowthSpeed == growthSpeed)
+                } else if (waterLevel < 4 && !changedSpeed)
                 {
                     growthSpeed /= 2;
+                    changedSpeed = true;
                     currentField.icons[1].SetActive(true);
                 }
                 WaterLevel -= waterLossRate * Time.deltaTime;
