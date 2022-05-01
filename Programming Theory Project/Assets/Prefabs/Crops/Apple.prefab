@@ -105,3 +105,4 @@ MonoBehaviour:
   growthSpeed: 1
   waterLevel: 10
   waterLossRate: 1
+  newGrowTime: 15

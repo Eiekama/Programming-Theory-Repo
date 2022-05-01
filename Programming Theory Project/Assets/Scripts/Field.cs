@@ -21,14 +21,19 @@ public class Field : MonoBehaviour
         }
     }
 
-    public GameObject[] icons; // make sure icons are placed in order
-    public bool isFertilised;
+    public GameObject waterIcon;
 
+    [SerializeField] Sprite harvestIcon;
+    Sprite previousIcon;
+
+    public GameObject fertilisedIndicator;
+    public bool isFertilised;
     public float fertiliserTimer;
     public float fertiliserTimeLeft;
 
     void Start()
     {
+        fertilisedIndicator.SetActive(false);
         fertiliserTimeLeft = fertiliserTimer;
     }
 
@@ -39,9 +44,7 @@ public class Field : MonoBehaviour
         if (currentCrop != null && currentCrop.GetComponent<Crop>().IsReady)
         {
             currentCrop.GetComponent<Crop>().Harvest();
-        }
-
-        if (PlayerActions.Instance.currentAction != PlayerActions.Action.None)
+        } else if (PlayerActions.Instance.currentAction != PlayerActions.Action.None)
         {
             switch (PlayerActions.Instance.currentAction)
             {
@@ -73,7 +76,30 @@ public class Field : MonoBehaviour
                     }
                     break;
             }
-            PlayerActions.Instance.ClearAction();
+        }
+    }
+
+    void OnMouseOver()
+    {
+        if (currentCrop != null && currentCrop.GetComponent<Crop>().IsReady)
+        {
+            if (PlayerActions.Instance.cursorRenderer.sprite != harvestIcon)
+            {
+                previousIcon = PlayerActions.Instance.cursorRenderer.sprite;
+                PlayerActions.Instance.cursorRenderer.sprite = harvestIcon;
+            }
+            PlayerActions.Instance.TrackCursor();
+        } else if (PlayerActions.Instance.cursorRenderer.sprite == harvestIcon && (currentCrop == null || !currentCrop.GetComponent<Crop>().IsReady))
+        {
+            PlayerActions.Instance.cursorRenderer.sprite = previousIcon;
+        }
+    }
+
+    void OnMouseExit()
+    {
+        if (PlayerActions.Instance.cursorRenderer.sprite == harvestIcon)
+        {
+            PlayerActions.Instance.cursorRenderer.sprite = previousIcon;
         }
     }
 }

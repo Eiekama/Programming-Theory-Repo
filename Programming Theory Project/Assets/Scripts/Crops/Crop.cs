@@ -8,8 +8,8 @@ public class Crop : MonoBehaviour
     protected SpriteRenderer spriteRenderer;
     protected Field currentField;
 
-    [SerializeField] float growTime;
-    [SerializeField] float growthSpeed = 1.0f;
+    [SerializeField] protected float growTime;
+    [SerializeField] protected float growthSpeed = 1.0f;
 
     [SerializeField] float waterLevel = 10;
     public float WaterLevel
@@ -31,8 +31,8 @@ public class Crop : MonoBehaviour
     }
     [SerializeField] float waterLossRate = 1.0f;
 
-    public bool IsReady { get; private set; }
-    bool isGrowing;
+    public bool IsReady { get; protected set; }
+    protected bool isGrowing;
 
     void Awake()
     {
@@ -48,17 +48,26 @@ public class Crop : MonoBehaviour
         StartCoroutine(Growing());
     }
 
-    protected IEnumerator Growing()
+    protected virtual IEnumerator Growing()
     {
         isGrowing = true;
         IsReady = false;
 
         var growTimeLeft = growTime;
+        var interval = growTime / (growthStages.Length - 1);
+        var currentStage = 0;
         while (growTimeLeft > 0)
         {
             if (isGrowing)
             {
                 growTimeLeft -= growthSpeed * Time.deltaTime;
+
+                var stage = growthStages.Length - 1 - Mathf.CeilToInt(growTimeLeft / interval);
+                if (currentStage != stage)
+                {
+                    currentStage = stage;
+                    spriteRenderer.sprite = growthStages[currentStage];
+                }
                 yield return null;
             } else
             {
@@ -66,22 +75,13 @@ public class Crop : MonoBehaviour
             }
         }
 
-        spriteRenderer.sprite = growthStages[growthStages.Length - 1];
         isGrowing = false;
         IsReady = true;
-        currentField.icons[0].SetActive(true);
     }
 
     public virtual void Harvest()
     {
         Debug.Log("Crop was harvested");
-        foreach (var icon in currentField.icons)
-        {
-            if (icon.activeInHierarchy)
-            {
-                icon.SetActive(false);
-            }
-        }
     }
 
 
@@ -108,6 +108,7 @@ public class Crop : MonoBehaviour
                     currentField.fertiliserTimeLeft = currentField.fertiliserTimer;
                     changedSpeed = false;
                     currentField.isFertilised = false;
+                    currentField.fertilisedIndicator.SetActive(false);
                     yield return null;
                 }
             } else
@@ -124,31 +125,34 @@ public class Crop : MonoBehaviour
         {
             if (waterLevel > 0)
             {
-                if (!isGrowing)
+                if (!IsReady)
                 {
-                    isGrowing = true;
+                    if (!isGrowing)
+                    {
+                        isGrowing = true;
+                        currentField.waterIcon.SetActive(false);
+                    }
+                    if (waterLevel >= 4 && changedSpeed)
+                    {
+                        growthSpeed *= 2;
+                        changedSpeed = false;
+                        spriteRenderer.color = Color.white;
+                    }
+                    else if (waterLevel < 4 && !changedSpeed)
+                    {
+                        growthSpeed /= 2;
+                        changedSpeed = true;
+                        spriteRenderer.color = new Color(0.89f, 0.68f, 0, 1); // some shade of orange
+                    }
+                    WaterLevel -= waterLossRate * Time.deltaTime;
                 }
-                if (waterLevel >= 4 && changedSpeed)
-                {
-                    growthSpeed *= 2;
-                    changedSpeed = false;
-                    currentField.icons[1].SetActive(false);
-                    currentField.icons[2].SetActive(false);
-                } else if (waterLevel < 4 && !changedSpeed)
-                {
-                    growthSpeed /= 2;
-                    changedSpeed = true;
-                    currentField.icons[1].SetActive(true);
-                }
-                WaterLevel -= waterLossRate * Time.deltaTime;
                 yield return null;
             } else
             {
                 if (isGrowing)
                 {
                     isGrowing = false;
-                    currentField.icons[1].SetActive(false);
-                    currentField.icons[2].SetActive(true);
+                    currentField.waterIcon.SetActive(true);
                 }
                 yield return null;
             }

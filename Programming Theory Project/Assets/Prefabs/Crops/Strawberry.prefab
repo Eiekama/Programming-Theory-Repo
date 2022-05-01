@@ -96,7 +96,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   growthStages:
-  - {fileID: 21300018, guid: 2700e06d970d112489ff23cfb58c3f78, type: 3}
   - {fileID: 21300058, guid: 2700e06d970d112489ff23cfb58c3f78, type: 3}
   - {fileID: 21300088, guid: 2700e06d970d112489ff23cfb58c3f78, type: 3}
   - {fileID: 21300090, guid: 2700e06d970d112489ff23cfb58c3f78, type: 3}
@@ -105,3 +104,4 @@ MonoBehaviour:
   growthSpeed: 1
   waterLevel: 10
   waterLossRate: 1
+  newGrowTime: 10

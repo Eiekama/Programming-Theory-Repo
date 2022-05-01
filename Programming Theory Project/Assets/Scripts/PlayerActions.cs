@@ -63,8 +63,16 @@ public class PlayerActions : MonoBehaviour
         }
     }
 
+    void OnMouseDown()
+    {
+        if (currentAction != Action.None)
+        {
+            ClearAction();
+        }
+    }
 
-    void TrackCursor()
+
+    public void TrackCursor()
     {
         Vector2 pos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         cursor.transform.position = pos;
@@ -88,6 +96,7 @@ public class PlayerActions : MonoBehaviour
     {
         Debug.Log("Fertilised field");
         currentField.isFertilised = true;
+        currentField.fertilisedIndicator.SetActive(true);
     }
 
     public void Remove()
@@ -95,12 +104,9 @@ public class PlayerActions : MonoBehaviour
         Debug.Log("Removed crop");
         Destroy(currentField.CurrentCrop);
         currentField.CurrentCrop = null;
-        foreach (var icon in currentField.icons)
+        if (currentField.waterIcon.activeInHierarchy)
         {
-            if (icon.activeInHierarchy)
-            {
-                icon.SetActive(false);
-            }
+            currentField.waterIcon.SetActive(false);
         }
     }
 

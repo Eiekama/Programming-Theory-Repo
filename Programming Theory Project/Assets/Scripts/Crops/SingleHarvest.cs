@@ -8,6 +8,10 @@ public class SingleHarvest : Crop
     {
         base.Harvest();
         currentField.CurrentCrop = null;
+        if (currentField.waterIcon.activeInHierarchy)
+        {
+            currentField.waterIcon.SetActive(false);
+        }
         Destroy(gameObject);
     }
 }

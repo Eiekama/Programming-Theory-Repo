@@ -96,7 +96,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   growthStages:
-  - {fileID: 21300018, guid: 2700e06d970d112489ff23cfb58c3f78, type: 3}
   - {fileID: 21300098, guid: 2700e06d970d112489ff23cfb58c3f78, type: 3}
   - {fileID: 21300092, guid: 2700e06d970d112489ff23cfb58c3f78, type: 3}
   growTime: 10
