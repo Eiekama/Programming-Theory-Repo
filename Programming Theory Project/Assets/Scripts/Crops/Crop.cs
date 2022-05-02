@@ -9,7 +9,21 @@ public class Crop : MonoBehaviour
     protected Field currentField;
 
     [SerializeField] protected float growTime;
-    [SerializeField] protected float growthSpeed = 1.0f;
+    [SerializeField] float growthSpeed = 1.0f;
+    protected float GrowthSpeed
+    {
+        get { return growthSpeed; }
+        set
+        {
+            if (value < 0)
+            {
+                Debug.LogError("growth speed was set to negative");
+            } else
+            {
+                growthSpeed = value;
+            }
+        }
+    } // ENCAPSULATION
 
     [SerializeField] float waterLevel = 10;
     public float WaterLevel
@@ -28,27 +42,49 @@ public class Crop : MonoBehaviour
                 waterLevel = value;
             }
         }
-    }
+    } // ENCAPSULATION
+
     [SerializeField] float waterLossRate = 1.0f;
 
-    public bool IsReady { get; protected set; }
+    public bool IsReady { get; protected set; } // ENCAPSULATION
     protected bool isGrowing;
+
+    bool isRunningF;
+    bool isRunningW;
 
     void Awake()
     {
         currentField = GetComponentInParent<Field>();
-    }
-
-    protected virtual void Start()
-    {
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = growthStages[0];
-        StartCoroutine(ManageFertiliser());
-        StartCoroutine(ManageWater());
+    }
+
+    void Start()
+    {
         StartCoroutine(Growing());
     }
 
-    protected virtual IEnumerator Growing()
+    void Update()
+    {
+        if (currentField.isFertilised && !isRunningF)
+        {
+            StartCoroutine(ManageFertiliser());
+        }
+        if (!isRunningW && waterLevel > 0)
+        {
+            StartCoroutine(ManageWater());
+        }
+    }
+
+    void OnDestroy()
+    {
+        if (currentField.waterIcon.activeInHierarchy)
+        {
+            currentField.waterIcon.SetActive(false);
+        }
+    }
+
+    protected virtual IEnumerator Growing() // ABSTRACTION
     {
         isGrowing = true;
         IsReady = false;
@@ -56,13 +92,14 @@ public class Crop : MonoBehaviour
         var growTimeLeft = growTime;
         var interval = growTime / (growthStages.Length - 1);
         var currentStage = 0;
+
         while (growTimeLeft > 0)
         {
             if (isGrowing)
             {
-                growTimeLeft -= growthSpeed * Time.deltaTime;
-
+                growTimeLeft -= GrowthSpeed * Time.deltaTime;
                 var stage = growthStages.Length - 1 - Mathf.CeilToInt(growTimeLeft / interval);
+
                 if (currentStage != stage)
                 {
                     currentStage = stage;
@@ -84,78 +121,77 @@ public class Crop : MonoBehaviour
         Debug.Log("Crop was harvested");
     }
 
-
-
-    IEnumerator ManageFertiliser()
+    IEnumerator ManageFertiliser() // ABSTRACTION
     {
+        isRunningF = true;
         bool changedSpeed = false;
-        while (true)
+
+        while (currentField.fertiliserTimeLeft > 0)
         {
-            if (currentField.isFertilised && isGrowing)
+            if (isGrowing)
             {
-                if (currentField.fertiliserTimeLeft > 0)
+                if (!changedSpeed)
                 {
-                    if (!changedSpeed)
-                    {
-                        growthSpeed *= 2;
-                        changedSpeed = true;
-                    }
-                    currentField.fertiliserTimeLeft -= Time.deltaTime;
-                    yield return null;
-                } else
-                {
-                    growthSpeed /= 2;
-                    currentField.fertiliserTimeLeft = currentField.fertiliserTimer;
-                    changedSpeed = false;
-                    currentField.isFertilised = false;
-                    currentField.fertilisedIndicator.SetActive(false);
-                    yield return null;
+                    GrowthSpeed *= 2;
+                    changedSpeed = true;
                 }
+                currentField.fertiliserTimeLeft -= Time.deltaTime;
+                yield return null;
             } else
             {
                 yield return null;
             }
         }
+
+        GrowthSpeed /= 2;
+        currentField.ResetFertiliserTimer();
+        currentField.isFertilised = false;
+        currentField.SetFertilisedIndicatorActive(false);
+        isRunningF = false;
     }
 
-    IEnumerator ManageWater()
+    IEnumerator ManageWater() // ABSTRACTION
     {
+        isRunningW = true;
         bool changedSpeed = false;
-        while (true)
+        spriteRenderer.color = Color.white;
+        currentField.waterIcon.SetActive(false);
+        if (!isGrowing && !IsReady)
         {
-            if (waterLevel > 0)
+            isGrowing = true;
+        }
+
+        while (waterLevel > 0)
+        {
+            if (isGrowing)
             {
-                if (!IsReady)
+                if (changedSpeed && waterLevel >= 4)
                 {
-                    if (!isGrowing)
-                    {
-                        isGrowing = true;
-                        currentField.waterIcon.SetActive(false);
-                    }
-                    if (waterLevel >= 4 && changedSpeed)
-                    {
-                        growthSpeed *= 2;
-                        changedSpeed = false;
-                        spriteRenderer.color = Color.white;
-                    }
-                    else if (waterLevel < 4 && !changedSpeed)
-                    {
-                        growthSpeed /= 2;
-                        changedSpeed = true;
-                        spriteRenderer.color = new Color(0.89f, 0.68f, 0, 1); // some shade of orange
-                    }
-                    WaterLevel -= waterLossRate * Time.deltaTime;
+                    GrowthSpeed *= 2;
+                    changedSpeed = false;
+                    spriteRenderer.color = Color.white;
                 }
+                else if (!changedSpeed && waterLevel < 4)
+                {
+                    GrowthSpeed /= 2;
+                    changedSpeed = true;
+                    spriteRenderer.color = new Color(0.89f, 0.68f, 0, 1); // some shade of orange
+                }
+
+                WaterLevel -= waterLossRate * Time.deltaTime;
                 yield return null;
             } else
             {
-                if (isGrowing)
-                {
-                    isGrowing = false;
-                    currentField.waterIcon.SetActive(true);
-                }
                 yield return null;
             }
         }
+
+        if (changedSpeed)
+        {
+            GrowthSpeed *= 2;
+        }
+        isGrowing = false;
+        currentField.waterIcon.SetActive(true);
+        isRunningW = false;
     }
 }

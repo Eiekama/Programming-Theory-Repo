@@ -19,22 +19,22 @@ public class Field : MonoBehaviour
                 currentCrop = value;
             }
         }
-    }
+    } // ENCAPSULATION
 
     public GameObject waterIcon;
 
     [SerializeField] Sprite harvestIcon;
     Sprite previousIcon;
 
-    public GameObject fertilisedIndicator;
-    public bool isFertilised;
-    public float fertiliserTimer;
+    [SerializeField] GameObject fertilisedIndicator;
+    [SerializeField] static float fertiliserTimer;
     public float fertiliserTimeLeft;
+    public bool isFertilised;
 
     void Start()
     {
         fertilisedIndicator.SetActive(false);
-        fertiliserTimeLeft = fertiliserTimer;
+        ResetFertiliserTimer();
     }
 
     void OnMouseDown()
@@ -49,6 +49,7 @@ public class Field : MonoBehaviour
             switch (PlayerActions.Instance.currentAction)
             {
                 case PlayerActions.Action.Plant:
+
                     if (currentCrop == null)
                     {
                         PlayerActions.Instance.Plant();
@@ -56,6 +57,7 @@ public class Field : MonoBehaviour
                     break;
 
                 case PlayerActions.Action.Water:
+
                     if (currentCrop != null)
                     {
                         PlayerActions.Instance.Water();
@@ -63,6 +65,7 @@ public class Field : MonoBehaviour
                     break;
 
                 case PlayerActions.Action.Fertilise:
+
                     if (!isFertilised)
                     {
                         PlayerActions.Instance.Fertilise();
@@ -70,6 +73,7 @@ public class Field : MonoBehaviour
                     break;
 
                 case PlayerActions.Action.Remove:
+
                     if (currentCrop != null)
                     {
                         PlayerActions.Instance.Remove();
@@ -80,7 +84,7 @@ public class Field : MonoBehaviour
     }
 
     void OnMouseOver()
-    {
+    { // displays a sickle icon at cursor position if crop is ready
         if (currentCrop != null && currentCrop.GetComponent<Crop>().IsReady)
         {
             if (PlayerActions.Instance.cursorRenderer.sprite != harvestIcon)
@@ -101,5 +105,21 @@ public class Field : MonoBehaviour
         {
             PlayerActions.Instance.cursorRenderer.sprite = previousIcon;
         }
+    }
+
+
+    public void ResetFertiliserTimer()
+    {
+        fertiliserTimeLeft = fertiliserTimer;
+    }
+
+    public void SetFertilisedIndicatorActive(bool boolean)
+    {
+        fertilisedIndicator.SetActive(boolean);
+    }
+
+    public void SetWaterIconActive(bool boolean)
+    {
+        waterIcon.SetActive(boolean);
     }
 }

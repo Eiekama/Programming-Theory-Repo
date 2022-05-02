@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerActions : MonoBehaviour
 {
-    public static PlayerActions Instance { get; private set; }
+    public static PlayerActions Instance { get; private set; } // ENCAPSULATION
 
     public enum Action
     {
@@ -15,7 +15,6 @@ public class PlayerActions : MonoBehaviour
         Remove
     }
     public Action currentAction;
-
     public Field currentField;
 
     GameObject cropPrefab;
@@ -32,11 +31,11 @@ public class PlayerActions : MonoBehaviour
                 cropPrefab = value;
             }
         }
-    }
+    } // ENCAPSULATION
 
     [SerializeField] Camera mainCamera;
     [SerializeField] GameObject cursor;
-    public SpriteRenderer cursorRenderer { get; private set; }
+    public SpriteRenderer cursorRenderer { get; private set; } // ENCAPSULATION
 
 
     void Awake()
@@ -72,45 +71,41 @@ public class PlayerActions : MonoBehaviour
     }
 
 
-    public void TrackCursor()
+    public void TrackCursor() // ABSTRACTION
     {
         Vector2 pos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         cursor.transform.position = pos;
     }
 
 
-    public void Plant()
+    public void Plant() // ABSTRACTION
     {
         Debug.Log("Planted " + cropPrefab);
         Instantiate(cropPrefab, currentField.transform);
         currentField.CurrentCrop = currentField.GetComponentInChildren<Crop>().gameObject;
     }
 
-    public void Water()
+    public void Water() // ABSTRACTION
     {
         Debug.Log("Watered field");
         currentField.CurrentCrop.GetComponent<Crop>().WaterLevel += 8;
     }
 
-    public void Fertilise()
+    public void Fertilise() // ABSTRACTION
     {
         Debug.Log("Fertilised field");
         currentField.isFertilised = true;
-        currentField.fertilisedIndicator.SetActive(true);
+        currentField.SetFertilisedIndicatorActive(true);
     }
 
-    public void Remove()
+    public void Remove() // ABSTRACTION
     {
         Debug.Log("Removed crop");
         Destroy(currentField.CurrentCrop);
         currentField.CurrentCrop = null;
-        if (currentField.waterIcon.activeInHierarchy)
-        {
-            currentField.waterIcon.SetActive(false);
-        }
     }
 
-    public void ClearAction()
+    public void ClearAction() // ABSTRACTION
     {
         currentAction = Action.None;
         currentField = null;

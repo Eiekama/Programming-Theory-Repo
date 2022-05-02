@@ -2,16 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SingleHarvest : Crop
+public class SingleHarvest : Crop // INHERITANCE
 {
-    public override void Harvest()
+    public override void Harvest() // POLYMORPHISM
     {
         base.Harvest();
         currentField.CurrentCrop = null;
-        if (currentField.waterIcon.activeInHierarchy)
-        {
-            currentField.waterIcon.SetActive(false);
-        }
         Destroy(gameObject);
     }
 }

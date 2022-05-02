@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MultiHarvest : Crop
+public class MultiHarvest : Crop // INHERITANCE
 {
     bool hasGrownOnce;
     [SerializeField] float newGrowTime;
 
-    public override void Harvest()
+    public override void Harvest() // POLYMORPHISM
     {
         base.Harvest();
         hasGrownOnce = true;
@@ -15,7 +15,7 @@ public class MultiHarvest : Crop
         StartCoroutine(Growing());
     }
 
-    protected override IEnumerator Growing()
+    protected override IEnumerator Growing() // POLYMORPHISM
     {
         if (!hasGrownOnce)
         {
@@ -36,7 +36,7 @@ public class MultiHarvest : Crop
         {
             if (isGrowing)
             {
-                growTimeLeft -= growthSpeed * Time.deltaTime;
+                growTimeLeft -= GrowthSpeed * Time.deltaTime;
                 yield return null;
             }
             else
